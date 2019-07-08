@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script type="text/javascript" src="/js/jquery/jquery.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/socket.io.js"></script>
+  
+    <style>
+        img:hover {
+            opacity: 1 !important;
+        };
+        tr:nth-child(even){
+            background: #F8A933
+        }
+        tr:nth-child(odd){
+            background: #22B3DF
+        };
+        a{ }
+        a:hover {
+            color: green !important;
+            font-size: 40px
+        }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <table class="table bg-light mt-5">
+       <tr>
+       <td colspan="2"> <input type="search" id="search" class="form-control" placeholder="Search Contacts"></td>
+       </tr>
+       <tbody id="contactTable">
+           
+        <% for (i = 0; i < info.length; i++){%>
+        <tr id="<%= info[i]._id %>">
+          <td><a href="<%= info[i].picture %>"><img src="<%= info[i].picture %>" width="50" height="50" class="rounded-circle border-white" style="opacity: 0.8" /></a></td>
+          <td class=""><a href="/conver/<%=userId + info[i].username%>" style="color:#C5161D; font-size: 20px; text-decoration: none; font-weight: bold"><span><%= info[i].username %></span></a></td></tr>
+       <%}%>
+       </tbody>
+   </table>
+   </div>
+
+   <script>
+      
+     
+        $(document).ready(function(){
+            
+            //searching of particular contact
+            $('#search').keyup(function(){
+            
+            var value = $(this).val().toLowerCase();
+            $('#contactTable tr').filter(function(){
+                $(this).toggle($(this).text().toLowerCase().indexOf(value)> -1)
+            })
+            })
+            
+            //removing ther login user from the contact list
+          
+          //for troubleshooting
+            //local storage
+            if(localStorage.getItem('username') == null){
+                dd = "<%=userId%>"
+                localStorage.setItem("username",dd)
+            }
+            //clearing local stoage
+            
+            //setting new user
+           
+
+           
+           
+            
+        })
+    </script>
+</body>
+</html>

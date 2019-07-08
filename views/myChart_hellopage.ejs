@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <script type="text/javascript" src="/js/jquery/jquery.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/socket.io.js"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+    
+</head>
+<body>
+    <div class="container-fluid">
+
+        <nav class="navbar navbar-expand-md fixed-top mb-3 navbar-light shadow-lg" style="background: #07B7E8; padding-bottom: 0px">
+            <img src="/images/hello.png" class="navbar-brand" height="65"/>
+            <button class="navbar-toggler bg-info" type="button" data-toggle="collapse" data-target="#bar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse " id="bar" >
+                <ul class="nav navbar-nav animated rotateIn ml-5">
+                    <li class="nav-item">
+                        <a  class="nav-link ml-5" href="" style="font-weight: bold; color: whitesmoke" data-toggle="modal" data-target="#login"><img src="images/login.jpg" class="rounded-circle mr-2" height="40" width="40" alt=""> Login</a>
+                    </li>
+                    <li class="nav-item ml-5">
+                        <a  class="nav-link" href="" style="font-weight: bold; color: whitesmoke" data-toggle="modal" data-target="#signup"><img src="images/signup.jpg" class="rounded-circle mr-2" height="40" width="40" alt="">Sign up</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <% 
+        if(check===true){ %>
+            <div class="alert alert-success alert-dismissible text-center" style="margin-top: 80px">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong><%= success %></strong><i> kindly procees to login</i>
+            </div>
+       <% } %>
+        <% 
+        if(inform=='Invalid username and/or password'){ %>
+            <div class="alert alert-success alert-dismissible text-center" style="margin-top: 80px">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong><%= inform %></strong>
+            </div>
+       <% } %>
+
+        <!-- login modal -->
+        <div id="login" class="modal fade in modal-dialog modal-md">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">login</h4>
+                    </div>
+                    <form action="login" method="post" class="form">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="username" class="control-label">Username: </label>
+                                <input type="text" class="form-control" name="uname" placeholder="username">
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="control-label">Password: </label>
+                                <input type="password" class="form-control" name="pwd" placeholder="password">
+                            </div>
+                        </div>
+                        <div class="m-1 row">
+                            <input class="col-3 btn btn-success" type="submit" value="login">
+                            <button type="button" class="col-3 offset-6 btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- sign up modal -->
+        <div id="signup" class="modal fade in modal-dialog modal-md">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Sign up</h4>
+                    </div>
+                    <form class="form col-12" action="/addUser" method="post" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="lastname" class="control-label">Username</label>
+                                <input type="text" class="form-control" name="username" placeholder="username">
+                            </div>
+                            <div class="mt-3 form-group">
+                                <label for="password" class="control-label">Password</label>
+                                <input type="password" class="form-control" name="password" placeholder="password">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="mobile" class="control-label">Mobile</label>
+                                <input type="number" class="form-control" name="mobile" placeholder="Mobile Number">
+                            </div>
+                            <div class="form-group">
+                                <label for="mobile" class="control-label">Picture</label>
+                                <input type="file" class="form-control" name="passport">
+                            </div>
+
+                        </div>
+                        <div class="m-1 row">
+                            <input class="col-3 btn btn-success" type="submit" value="Sign up">
+                            <button type="button" class="col-3 offset-6 btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+                
+    </div>
+</body>
+</html>

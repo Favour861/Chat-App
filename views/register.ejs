@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Let's Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="/bootstrap/dist/css/bootstrap.css" />
+    <script type="text/javascript" src="bootstrap/dist/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="bootstrap/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" type="text/css" href="/animate.css">
+</head>
+<style>
+    .skewed{
+        transform: skewY(7deg);
+        height: 50vh;
+        background: rgb(14, 96, 190);
+        width: 100%;
+        margin-top: -100px;
+        
+
+    }
+    .mid-container{
+        border-radius: 5px;
+        border: 3px solid rgb(14, 96, 190);
+        height: 450px;
+        background: white;
+        margin: -7% auto;
+    }
+    hr{
+        border-color: rgb(14, 96, 190);
+        opacity: 0.5;
+    }
+    /* input{
+        background: rgb(215, 234, 240) !important;
+    } */
+</style>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="skewed shadow">
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mid-container shadow">
+                <p style="font-size: 40pt; font-family: Impact; color: rgb(14, 96, 190)" align="center">LET'S CHAT</p>
+                <div class="animated bounceInLeft">
+                    <hr>
+                    <div class="shadow">
+                        
+                    <% if(state=="routed"){%>
+                    <form class="form-group row" action="/registration.enter" method="POST" enctype="multipart/form-data">
+                        <div class="col-10 mx-auto mt-2">
+                            <input type="hidden" name="phone" value="<%= phone %>">
+                            <div class="input-group mb-3">
+                                <div class="input-group-append">
+                                    <span class="input-group-text pr-5 bg-primary text-white">First Name:</span>
+                                </div>
+                                <input type="text" class="form-control" name="fname" placeholder="Your First Name">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-append">
+                                    <span class="input-group-text pr-5 bg-primary text-white">Last Name:</span>
+                                </div>
+                                <input type="text" class="form-control" name="lname" placeholder="Your Last Name">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-append">
+                                    <span class="input-group-text pr-5 bg-primary text-white">Profile Pix:</span>
+                                </div>
+                                <input type="file" class="form-control" name="pix">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-append">
+                                    <span class="input-group-text pr-5 bg-primary text-white">Username:</span>
+                                </div>
+                                <input type="text" class="form-control" name="uname" placeholder="Your Username">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-append">
+                                    <span class="input-group-text pr-5 bg-primary text-white">Password:&nbsp;</span>
+                                </div>
+                                <input type="text" class="form-control" name="pwd" placeholder="Your Password">
+                            </div>
+                            <p align="center"><button class="btn btn-primary">Submit</button></p>
+                        </div>
+                    </form>
+                    <% } else if(state=="successful"){%>
+                        <div style="text-align: center; padding-bottom: 30px">
+                            <img src="/images/success.png" class="animated pulse" width="100px"><br>
+                            <h4>You have successfully signed up on LET'S CHAT</h4>
+                            <p>Follow the link below to start chatting</p>
+                            <a href="/chat"><button class="btn btn-primary mt-2">START CHATTING!</button></a>
+                        </div>
+                    <% } %>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

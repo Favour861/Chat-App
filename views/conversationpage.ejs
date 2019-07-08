@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Let's Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="/bootstrap/dist/css/bootstrap.css" />
+    <script type="text/javascript" src="bootstrap/dist/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="bootstrap/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" type="text/css" href="/animate.css">
+    <script type="text/javascript" src="/js/socket.io.js"></script>
+</head>
+<style>
+    .skewed{
+        transform: skewY(7deg);
+        height: 50vh;
+        background: rgb(14, 96, 190);
+        width: 100%;
+        margin-top: -100px;
+    }
+    .mid-container{
+        border-radius: 5px;
+        border: 3px solid rgb(14, 96, 190);
+        min-height: 100vh;
+        background: white;
+        margin: -16.5% auto;
+    }
+    hr{
+        border-color: rgb(14, 96, 190);
+        opacity: 0.5;
+    }
+    tr{
+        cursor: pointer
+    }
+
+    .messaging{
+        padding: 10px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgb(15, 161, 209); 
+    }
+    textarea{
+        width: 94%;
+        max-height: 50px;
+        min-height: 50px;
+        border: 2px dotted green;
+        padding: 5px
+    }
+    button{
+        margin-top: -35px;
+    }
+    span{
+        max-width: 50%;
+    }
+</style>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="skewed shadow">
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-11 mid-container shadow bg-dark" style="margin-bottom: 80px">
+                <div class="bg-primary rounded fixed-top shadow text-white" style="text-align: center">
+                    <input type="hidden" id="rcp" value="<%= chatUser[0].phone %>">
+                    <img src="<%= chatUser[0].picture %>" width="60px" height="60px" class="mr-3 rounded-circle" style="border: 3px dotted white">
+                    <%= chatUser[0].fname %> <%= chatUser[0].lname %> 
+                </div>
+                <p id="feedback"></p>
+                <input type="hidden" id="conv" value="<%= convId %>">
+                <input type="hidden" id="user" value="<%= user %>">
+               <div id="chats" style="margin-top: 60px">
+                    <% for(i=0; i<msgList.length; i++){%>
+                        <% if(msgList[i].sender==user){%>
+                        <span class="p-1 rounded shadow-sm text-white bg-primary float-right">
+                            <span ><%= msgList[i].msgC %></span><br>
+                            <span class="text-dark"><small><%= msgList[i].time %></small></span>
+                        </span><br><br><br>
+                    <% } else {%>
+                        <div class="p-1 rounded shadow-sm text-white bg-success float-left">
+                                <span ><%= msgList[i].msgC %></span><br>
+                                <span class="text-dark"><small><%= msgList[i].time %></small></span>
+                        </div><br><br><br>
+                    <% } %>
+                    <% } %>
+                </div>
+                <span id="focus"></span>
+               <div class="messaging">
+                <textarea class="rounded" id="message"></textarea>
+                <button class="btn btn-success" id="send_msg">Send</button>
+               </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    $(function(){
+        //WITHOUT MY PHONE CONNECTION
+        // var socket = io.connect('http://localhost:5000');
+        //WITH MY PHONE CONNECTION
+        var socket = io.connect('http://192.168.43.49:5000');
+        var message = $("#message");
+        var feedback = $('#feedback');
+        var send_msg = $('#send_msg'); 
+        var focus = $('#focus'); 
+        var timeStamp = new Date();
+        var convId = $('#conv').val();
+        var chatBox = $('#chats');
+        var rcp = $('#rcp');
+        //getting from local storage
+        var cu = $('#user').val();
+        $(document).ready(function(){
+            focus.setFocus=true;
+            message.focus=true;
+        })
+        socket.user={};
+        socket.user.id=rcp.val();
+
+        send_msg.click(function(){
+                if(message.val()!=""){
+                    socket.emit('new_message', { sender: cu, message: message.val(), convId: convId, rcp: rcp.val()});
+                    message.val('');
+                }
+            });
+
+        socket.on('message_sent', (data)=>{
+            if(data.sender==cu && data.rcp==rcp.val()){
+                chatBox.append(`
+                <span class="p-1 rounded shadow-sm text-white bg-primary float-right">
+                    <span>${data.message}</span><br>
+                    <span class="text-dark"><small>${data.time}</small></span>
+                </span><br><br><br>
+                `)
+            } else if(data.sender==rcp.val() && data.rcp==cu) {
+                chatBox.append(`
+                <span class="p-1 rounded shadow-sm text-white bg-success float-left">
+                    <span>${data.message}</span><br>
+                    <span class="text-dark"><small>${data.time}</small></span>
+                </span><br><br><br>
+                `)
+            }
+           
+        })
+        // socket.on('typing', (data)=>{
+        //     feedback.html('is typing');
+        // })
+    })
+</script>
+</html>

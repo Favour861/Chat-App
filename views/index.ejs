@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Let's Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="/bootstrap/dist/css/bootstrap.css" />
+    <script type="text/javascript" src="bootstrap/dist/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="bootstrap/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" type="text/css" href="/animate.css">
+</head>
+<style>
+    .skewed{
+        transform: skewY(7deg);
+        height: 50vh;
+        background: rgb(14, 96, 190);
+        width: 100%;
+        margin-top: -100px
+    }
+    .mid-container{
+        border-radius: 5px;
+        border: 3px solid rgb(14, 96, 190);
+        height: 400px;
+        background: white;
+        margin: -7% auto;
+    }
+    hr{
+        border-color: rgb(14, 96, 190);
+        opacity: 0.5;
+    }
+</style>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="skewed shadow">
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mid-container shadow">
+                <p style="font-size: 40pt; font-family: Impact; color: rgb(14, 96, 190)" align="center">LET'S CHAT</p>
+                <hr>
+                <% if(status=="invalid") {%>
+                <div class="alert alert-danger alert-dismissible" style="text-align: center">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>Invalid Username or Password</strong>
+                    </div>
+                <% } %>
+                <button class="btn btn-block btn-primary" data-toggle="collapse" data-target="#login"><img src="/images/login2.png" class="mr-3" width="30px">Login</button>
+                <div id="login" class="shadow collapse">
+                    <form class="form-group row" action="/login" method="POST">
+                        <div class="col-10 mx-auto mt-2">
+                            <div class="input-group mb-3">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Phone Number:</span>
+                                </div>
+                                <input type="text" name="phone" class="form-control" placeholder="Your Phone Number">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-append">
+                                    <span class="input-group-text pr-5">Password:</span>
+                                </div>
+                                <input type="password" name="pwd" class="form-control" placeholder="Your Password">
+                            </div>
+                            <p align="center"><button class="btn btn-primary">Start Chatting</button></p>
+                        </div>
+                    </form>
+                </div>
+                <a href="signUp.sqi"><button class="btn btn-block btn-primary mt-5"><img src="/images/signup.png" class="mr-3" width="30px">Sign Up</button></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

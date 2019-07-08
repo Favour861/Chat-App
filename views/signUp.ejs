@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Let's Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="/bootstrap/dist/css/bootstrap.css" />
+    <script type="text/javascript" src="bootstrap/dist/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="bootstrap/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" type="text/css" href="/animate.css">
+</head>
+<style>
+    .skewed{
+        transform: skewY(7deg);
+        height: 50vh;
+        background: rgb(14, 96, 190);
+        width: 100%;
+        margin-top: -100px;
+    }
+    .mid-container{
+        border-radius: 5px;
+        border: 3px solid rgb(14, 96, 190);
+        height: 400px;
+        background: white;
+        margin: -7% auto;
+    }
+    hr{
+        border-color: rgb(14, 96, 190);
+        opacity: 0.5;
+    }
+    input{
+        background: rgb(215, 234, 240) !important;
+    }
+</style>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="skewed shadow">
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mid-container shadow">
+                <p style="font-size: 40pt; font-family: Impact; color: rgb(14, 96, 190)" align="center">LET'S CHAT</p>
+                <div class="animated bounceInLeft">
+                    <hr>
+                    <% if(status=="unsuccessful"){ %>
+                        <div class="alert alert-danger alert-dismissible" style="text-align: center">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong>User already exist</strong>
+                            </div>
+                            <h4 align="center">Check phone number availability</h4>
+                    <form action="/checkPhone" method="post">
+                        <input class="form-control" name="phone" placeholder="type in your phone number">
+                        <p class="mt-3" align="center"><button type="submit" class="btn btn-primary"><img src="/images/check.png" class="mr-3" width="30px">Check</button></p>
+                    </form>
+                    <% } %>
+                    <% if(status==null){%>
+                    <h4 align="center">Check phone number availability</h4>
+                    <form action="/checkPhone" method="post">
+                        <input class="form-control" name="phone" placeholder="type in your phone number">
+                        <p class="mt-3" align="center"><button type="submit" class="btn btn-primary"><img src="/images/check.png" class="mr-3" width="30px">Check</button></p>
+                    </form>
+                    <% } else if(status=="available"){%>
+                        <div class="alert alert-danger alert-dismissible" style="text-align: center">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>Phone Number already exist</strong>
+                        </div>
+                        <h4 align="center">Check phone number availability</h4>
+                    <form action="/checkPhone" method="post">
+                        <input class="form-control" name="phone" placeholder="type in your phone number">
+                        <p class="mt-3" align="center"><button type="submit" class="btn btn-primary"><img src="/images/check.png" class="mr-3" width="30px">Check</button></p>
+                    </form>
+                    <% } else if (status == "not available"){%>
+                        <div style="text-align: center">
+                            <img src="/images/success.png" width="100px"><br>
+                            <h4>Phone Number Available!</h4>
+                            <a href="/register/<%= phone %>"><button class="btn btn-primary mt-2">PROCEED</button></a>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

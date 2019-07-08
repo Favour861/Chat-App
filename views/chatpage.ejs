@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Let's Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="/bootstrap/dist/css/bootstrap.css" />
+    <script type="text/javascript" src="bootstrap/dist/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="bootstrap/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" type="text/css" href="/animate.css">
+</head>
+<style>
+    .skewed{
+        transform: skewY(7deg);
+        height: 50vh;
+        background: rgb(14, 96, 190);
+        width: 100%;
+        margin-top: -100px;
+    }
+    .mid-container{
+        border-radius: 5px;
+        border: 3px solid rgb(14, 96, 190);
+        min-height: 100vh;
+        background: white;
+        margin: -15% auto;
+    }
+    hr{
+        border-color: rgb(14, 96, 190);
+        opacity: 0.5;
+    }
+    tr{
+        cursor: pointer
+    }
+    span{
+        display: none;
+    }
+</style>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="skewed shadow">
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="modal fade" id="grpCrt">
+                <div class="modal-dialog p-5">
+                <div class="modal-content">
+                    <div class="modal-head">
+                        <h4 align="center" class="bg-primary text-white">CREATE NEW GROUP</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-group" action="/grpCreate" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="creator" value="<%= user %>">
+                            <div class="input-group mb-3">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Group Name:</span>
+                                </div>
+                                <input type="text" name="grpName" class="form-control" placeholder="Type in the group Name">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Group Picture:</span>
+                                </div>
+                                <input type="file" name="grpPix" class="form-control">
+                            </div>
+                            <p align="center"><button class="btn btn-primary">Create</button></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="col-md-11 mid-container shadow">
+                    <div class="w-50 input-group mb-3 mx-auto">
+                            <div class="bg-dark input-group-append rounded">
+                                <span class="rounded input-group-text pr-5 bg-primary text-white">Search:</span>
+                            </div>
+                            <input type="search" class="form-control" id="search" placeholder="Search Contacts by anything...">
+                        </div>
+                        <span id="profile" class="btn-block">
+                            
+                        </span>
+                <input type="hidden" id="user" value="<%= user %>">
+                <p align="center"><button class="btn btn-primary" data-target="#grpCrt" data-toggle="modal">Create Group</button></p>
+                <span class="badge badge-success">Groups</span>
+                <table class="table table-bordered table-primary table-striped table-hover">
+                   <% for(i=0; i<groups.length; i++){ %>
+                    <tr>
+                        <td width="10%"><img src="/<%= groups[i].picture %>" alt="Group Image" style="border: 3px dotted white" class="rounded-circle" width="50px" height="50px"></td>
+                        <td><%= groups[i].name %></td>
+                        <td width="5%">
+                            <form action="/groupchat.sqi" method="POST">
+                                <input type="hidden" name="groupId" value="<%= groups[i].id %>">
+                                <input type="hidden" name="user" value="<%= user %>">
+                                <button class="btn btn-primary" type="submit">Group Chat</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% } %>
+                </table>
+                <span class="badge badge-success">Users</span>
+                <table class="table table-bordered table-primary table-striped table-hover">
+                        
+                <% for(i=0; i<users.length; i++){ %>
+                    <% if(users[i].phone==user){%>
+                    
+                    <% } else {%>
+                    <tr>
+                        <td width="10%"><span><%= users[i].fname %></span><span><%= users[i].phone %></span><img src="/<%= users[i].picture %>" style="border: 3px dotted white" class="rounded-circle" width="50px" height="50px"></td>
+                        <td><span><%= users[i].lname %></span><%= users[i].uname %></td>
+                        <td width="5%">
+                            <form action="/conversation.sqi" method="POST">
+                                <input type="hidden" name="cUserId" value="<%= user %>">
+                                <input type="hidden" name="chatUserId" value="<%= users[i].phone %>">
+                                <button class="btn btn-primary" type="submit">Chat</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }%>
+                <% } %>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    $(document).ready(function(){
+
+        //filtering search result
+        $('#search').keyup(function(){
+            var value = $(this).val().toLowerCase();
+            $('table tr').filter(function(){
+                $(this).toggle($(this).text().toLowerCase().indexOf(value)> -1)
+            })  
+        })
+
+        if(localStorage.getItem('currentUser') == null){
+                cu = "<%= user %>";
+                localStorage.setItem("currentUser", cu)
+            }
+
+    })
+</script>
+</html>
