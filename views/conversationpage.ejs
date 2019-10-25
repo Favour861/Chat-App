@@ -100,9 +100,9 @@
 <script>
     $(function(){
         //WITHOUT MY PHONE CONNECTION
-        // var socket = io.connect('http://localhost:5000');
+        var socket = io.connect('http://localhost:5000');
         //WITH MY PHONE CONNECTION
-        var socket = io.connect('http://192.168.43.49:5000');
+        // var socket = io.connect('http://192.168.43.49:5000');
         var message = $("#message");
         var feedback = $('#feedback');
         var send_msg = $('#send_msg'); 
@@ -117,13 +117,17 @@
             focus.setFocus=true;
             message.focus=true;
         })
-        socket.user={};
-        socket.user.id=rcp.val();
+        // socket.user={};
+        // socket.user.id=rcp.val();
 
         send_msg.click(function(){
+            // console.log(message.val())
                 if(message.val()!=""){
-                    socket.emit('new_message', { sender: cu, message: message.val(), convId: convId, rcp: rcp.val()});
-                    message.val('');
+                    
+                    socket.emit('new_message', { sender: cu, message: message.val(), convId: convId, rcp: rcp.val()}, ()=>{
+                        // console.log("emited")
+                        // message.val('');
+                    });
                 }
             });
 

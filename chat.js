@@ -305,6 +305,7 @@ io.on('connection', (socket)=>{
         })
     })
     socket.on('new_message', (data)=>{
+        console.log(data)
         let date = new Date();
         let hr = date.getHours();
         let mn = date.getMinutes();
@@ -323,6 +324,7 @@ io.on('connection', (socket)=>{
         console.log(msg)
         // users.find({phone: msg.sender}, {picture: 1}, (err, result)=>{
             newMsg.save().then(data=>{
+                console.log("SENT OOOOOOOOOOOOOOOO")
                     io.sockets.emit('message_sent', {message: msg.msgC, sender: msg.sender, time: time, rcp: msg.rcp})
             })
         // })
